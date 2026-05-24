@@ -44,8 +44,8 @@ type cliCommand struct {
 	name        string
 	description string
 	callback    func() error
-	//add config struct to all commands
-	config struct{ Next, Previous string }
+	//add a pointer to config struct to all commands
+	&config struct{ Next, Previous string }
 }
 
 func getCommands() map[string]cliCommand {
