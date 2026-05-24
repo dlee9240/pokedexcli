@@ -1,18 +1,67 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
+	"os"
 	"strings"
 )
 
-func cleanInput(text string) []string {
-	//return an empty string for now
-	//return []string{}
-	//takes a text string and splits it into a slice of strings.. Remove the whitespace etc
-	//var result []string
-	result := strings.Fields(strings.ToLower(text))
-	return result
+func startRepl() {
+	reader := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("Pokedex > ")
+		reader.Scan()
+
+		words := cleanInput(reader.Text())
+		if len(words) == 0 {
+			continue
+		}
+
+		commandName := words[0]
+
+		command, exists := getCommands()[commandName]
+		if exists {
+			err := command.callback()
+			if err != nil {
+				fmt.Println(err)
+			}
+			continue
+		} else {
+			fmt.Println("Unknown command")
+			continue
+		}
+	}
 }
 
+func cleanInput(text string) []string {
+	output := strings.ToLower(text)
+	return strings.Fields(output)
+}
+
+// help and exit assignment changes...
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exits the Pokedex",
+			callback:    commandExit,
+		},
+	}
+}
+
+//assignment before..
 //this is boot.dev solution
 /*
 package main
