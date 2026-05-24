@@ -44,6 +44,8 @@ type cliCommand struct {
 	name        string
 	description string
 	callback    func() error
+	//add config struct to all commands
+	config struct{ Next, Previous string }
 }
 
 func getCommands() map[string]cliCommand {
@@ -59,6 +61,8 @@ func getCommands() map[string]cliCommand {
 			callback:    commandExit,
 		},
 		//added map command in PokeAPI lesson
+		//map command displays of the 20 location areas in the Pokemon world.
+		//Each subsequent call to map should display the next 20 locations and so on...
 		"map": {
 			name:        "map",
 			description: "Maps a Pokemon",
