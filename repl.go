@@ -5,9 +5,18 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/dlee9240/pokedexcli/internal/pokeapi"
 )
 
-func startRepl() {
+type config struct {
+	pokeapiClient        pokeapi.Client
+	nextLocationsURL     *string
+	previousLocationsURL *string
+}
+
+func startRepl(cfg *config) {
+
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -22,8 +31,9 @@ func startRepl() {
 
 		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback()
+			err := command.callback(cfg)
 			if err != nil {
+
 				fmt.Println(err)
 			}
 			continue
@@ -40,10 +50,11 @@ func cleanInput(text string) []string {
 }
 
 // help and exit assignment changes...
+// update all cliCommand to have a config struct pointer
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -57,6 +68,19 @@ func getCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exits the Pokedex",
 			callback:    commandExit,
+		},
+		//added map command in PokeAPI lesson
+		//map command displays of the 20 location areas in the Pokemon world.
+		//Each subsequent call to map should display the next 20 locations and so on...
+		"map": {
+			name:        "map",
+			description: "Get the next page of locations",
+			callback:    commandMapf,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
 		},
 	}
 }
