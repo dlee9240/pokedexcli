@@ -28,7 +28,7 @@ func commandMapb(configuration *config) error {
 	}
 
 	//get the location response...
-	locationsResp, err := configuration.pokeapiClient.ListLocations(configuration.nextLocationsURL)
+	locationsResp, err := configuration.pokeapiClient.ListLocations(configuration.previousLocationsURL)
 	if err != nil {
 		return err
 	}

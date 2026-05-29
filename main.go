@@ -9,7 +9,8 @@ import (
 func main() {
 	//need to set up the pokeapi client etc
 
-	pokeClient := pokeapi.NewClient(5 * time.Second)
+	//added the second argument of 5 minutes
+	pokeClient := pokeapi.NewClient(5*time.Second, time.Minute*5)
 
 	//setting up the actual config and assigning the pokeClient above to the struct...
 	cfg := &config{
