@@ -6,8 +6,9 @@ import (
 	"net/http"
 )
 
+// GetLocation -
 func (c *Client) GetLocation(locationName string) (Location, error) {
-	url := baseURL + "/location-area" + locationName
+	url := baseURL + "/location-area/" + locationName
 
 	if val, ok := c.cache.Get(url); ok {
 		locationResp := Location{}
@@ -43,5 +44,4 @@ func (c *Client) GetLocation(locationName string) (Location, error) {
 	c.cache.Add(url, dat)
 
 	return locationResp, nil
-
 }
