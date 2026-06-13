@@ -14,6 +14,8 @@ func main() {
 
 	//setting up the actual config and assigning the pokeClient above to the struct...
 	cfg := &config{
+		//define a pokemon in the config...  Need to understand this a little bit better
+		caughtPokemon: map[string]pokeapi.Pokemon{},
 		pokeapiClient: pokeClient,
 	}
 	startRepl(cfg)

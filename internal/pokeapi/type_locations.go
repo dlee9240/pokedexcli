@@ -67,3 +67,5 @@ type Location struct {
 		} `json:"version_details"`
 	} `json:"pokemon_encounters"`
 }
+
+//Need to add the JSON mapping for the Pokemon itself
