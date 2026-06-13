@@ -1,0 +1,108 @@
+Catch
+
+Add a catch command - Need new file called command_catch.go
+- argument is pokemon name. I think we can reuse the same argument already for Explore...
+- need to figure out the math for catching the pokemon in this file
+    - Give the user a chance by using the math/rand package
+    - use the base experience to determine whether or not the user caught the pokemon
+- need to display to the user whether or not the pokemon was caught or not
+- add the caught pokemon to a new mapping that is stored map[string]Pokemon
+
+
+DONE
+Need to add the command to the mapping in repl.go
+- command_catch struct
+
+
+Need a type_pokemon.go file for defining a pokemon type
+type Pokemon struct {} - From the payload from GET https://pokeapi.co/api/v2/pokemon/{id or name}/
+
+
+Need a pokemon_get.go file that actually fetches the pokemon definied in above.
+
+DONE - Need to understand this a bit better I think
+Need to create the map... Need to do this in main (I didn't think about this)
+- Makes sense because this is where everything points to and uses the same across all files / functions etc.  Same place as the client is created that is passed via the config!!!!
+
+
+
+________________
+Explore
+After a user uses the map commands to find a location area, we want them to be able to see a list of all the Pokémon located there.
+
+Assignment
+Add an explore command. It takes the name of a location area as an argument.
+
+Run and submit the CLI tests.
+______________
+
+Steps:
+1. Add command_explore.go file
+- it will contain the logic for the actual explore command in it.
+
+2. Add the command struct into the repl.go file for the list of commands...
+- This will list the command when the user types in help.
+- Call the API Endpoint and get the results.  From those results set the values in the struct (need to add the location area being explored).
+    - I don't think I need to store this in any struct.  I just need to be able to display the response data
+- print the list of pokemon in the area specified in the API call to return the list of pokemon to the user.
+
+3. Update the pokeapi library to accept a new parameter <area_name>
+- this value will need to be read when making the repl command in the cli and use the name to display the results passed into the API call.
+
+4. Update repl.go to accept a area name???  Is this in the struct of commands?  Need to update all function signatures of all commands to allow parameters in commands.
+- I think this needs to be done in the repl.go file...
+
+5. Add a explore_Locations type to store the response information. Need to parse through the JSON to achieve this.
+- explore_locations.go
+
+Modified (From solution)
+
+command_exit.go
+command_help.go
+command_map.go
+internal/pokeapi/types_locations.go
+repl.go
+
+added
+command_explore.go
+internal/pokeapi/location_get.go
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tips
+Use the same PokeAPI location-area endpoint, but this time you'll need to pass the name of the location area being explored. By adding a name or id, the API will return a lot more information about the location area.
+Feel free to use tools like JSON lint and JSON to Go to help you parse the response.
+Parse the Pokemon's names from the response and display them to the user.
+Make sure to use the caching layer again! Re-exploring an area should be blazingly fast.
+You'll need to alter the function signature of all your commands to allow them to allow parameters. E.g. explore <area_name>
+Example usage:
+
+
+
+Pokedex > explore pastoria-city-area
+Exploring pastoria-city-area...
+Found Pokemon:
+ - tentacool
+ - tentacruel
+ - magikarp
+ - gyarados
+ - remoraid
+ - octillery
+ - wingull
+ - pelipper
+ - shellos
+ - gastrodon
+Pokedex >
+
+
+___________________
